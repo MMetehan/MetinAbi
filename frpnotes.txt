@@ -1,0 +1,38 @@
+İsim: Samuel Elenore
+Yaş: 27
+
+Can: 30
+Enerji: 30
+Exp: 0
+Level: 0
+
+Stats:
+Zeka-------------9
+Güç--------------9
+Çeviklik---------7
+Kondisyon--------8
+Farkındalık------6
+Dayanıklılık-----12
+Şans-------------5
+Karizma----------7
+
+
+Altın: 380
+
+Cerino Başkentinde Takılıyom
+Hükümdar Heka (Kötü)
+Görevim
+
+Envanter:
+Zırh: Deri Zırh(+2 zırh)
+pantol, gömlek, ayakkabı etkisiz
+Kılıç (Hasar +2)
+Can İksiri x2
+Eğitim Kitabı(all of them) x1
+Peksimet x4
+Kurabiye x2 (Tadı Mordur dikkat et)
+
+
+
+Kişisel Notlarım:
+Tüccar Muhittin ve yardakçısı bıro iyi insanlar(sanırım) insandan uzaklar işlerindeler.

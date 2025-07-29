@@ -1,0 +1,10 @@
+{
+  "name": "Metin Abi",
+  "description": "Metin Abi Discord Bot.",
+  "repository": "https://github.com/heroku/metinabi",
+  "keywords": [
+    "node",
+    "express",
+    "heroku"
+  ]
+}
