@@ -1,6 +1,7 @@
 const logModule = require("./log");
 const log = new logModule();
 const fs = require("fs");
+const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, VoiceConnectionStatus } = require('@discordjs/voice');
 
 class TTSModule {
   constructor() {}
@@ -22,6 +23,7 @@ class TTSModule {
       text = text.split("-/-")[0];
     }
 
+    console.log(message.member.voice)
     /**
      * Kullanıcının bir kanalda olup olmadığı kontrol ediliyor.
      * Bir kanalda değilse bir metin dönüyor.
@@ -29,11 +31,19 @@ class TTSModule {
      */
 
     if (
-      message.member.voice.channelID !== null &&
-      message.member.voice.channelID !== undefined &&
-      message.member.voice.channelID.trim() != ""
+      message.member.voice.channelId !== null &&
+      message.member.voice.channelId !== undefined &&
+      message.member.voice.channelId.trim() != ""
     ) {
-      const connectionChannel = await message.member.voice.channel.join();
+      const connection = joinVoiceChannel({
+        channelId: message.member.voice.channelId,
+        guildId: message.guild.id,
+        adapterCreator: message.guild.voiceAdapterCreator,
+      });
+
+      const player = createAudioPlayer();
+      connection.subscribe(player);
+
       let textArray = text.split(" ");
       var newText = "";
       textArray.map((word, idx) => {
@@ -41,30 +51,28 @@ class TTSModule {
           newText = newText + word + "+";
         } else {
           newText = newText + word;
-          const dispatcher = connectionChannel.play(
-            "https://translate.google.com/translate_tts?ie=UTF-8&tl=" +
-              languageCode +
-              "&client=tw-ob&q=" +
-              text.replace(" ", "+"),
-            { volume: 1 }
-          );
-          console.log(
-            "https://translate.google.com/translate_tts?ie=UTF-8&tl=" +
-              languageCode +
-              "&client=tw-ob&q=" +
-              newText
-          );
-          dispatcher.on("start", () => {});
-          dispatcher.on("finish", async () => {
-            await dispatcher.destroy();
-            fs.unlink("./output.mp3", (err) => {
-              console.log("fs unlink", err);
-            });
-            await connectionChannel.disconnect();
+          
+          const ttsUrl = "https://translate.google.com/translate_tts?ie=UTF-8&tl=" +
+            languageCode +
+            "&client=tw-ob&q=" +
+            text.replace(" ", "+");
+          
+          console.log(ttsUrl);
+          
+          const resource = createAudioResource(ttsUrl);
+          player.play(resource);
+
+          player.on(AudioPlayerStatus.Playing, () => {
+            console.log('TTS is playing');
           });
 
-          dispatcher.on("error", (error) => {
-            console.log("dispatcher", error);
+          player.on(AudioPlayerStatus.Idle, () => {
+            connection.destroy();
+          });
+
+          player.on('error', (error) => {
+            console.log('Player error:', error);
+            connection.destroy();
           });
         }
       });

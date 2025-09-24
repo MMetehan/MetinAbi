@@ -8,7 +8,7 @@ class Help {
      */
     HelpMessage(message, shortMessage) {
         this.LogCommand(message, shortMessage);
-        message.delete({ timeout: 0 });
+        message.delete();
 
 
         return message.author.send(`
@@ -25,7 +25,7 @@ Botu yazan kişi <@366276635478982656> (Storm). Gereksiz kullanım yapanlara bot
                 1) +mts kuracek orn1, orn2, orn3 şeklinde kura çektirebilirsiniz.
                 2) metnin sonuna ---{kazanan sayisi} yazarsanız yazılan sayı kadar kişi kazanacaktır.
                 dipnot: kazanan sayısı katılanlardan fazla yada eşit sayıda olamaz.
-                forexample) +mts kuracek ali, mete, ulaş, serdar, mami, eda ---3
+                forexample) +mts kuracek mete, ulaş, serdar, mami, alper, şule, semih ---3
             
             Zar Atma
                 1) +mts roll {zar tipi} şeklinde zar atabilirsiniz.

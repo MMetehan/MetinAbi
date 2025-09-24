@@ -27,8 +27,17 @@ Pandemi döneminde ses tellerimi kullanamayacak kadar hasta olduğum için arkad
    ```sh
    npm install
    ```
-4. `.env` dosyasına Discord bot token'ınızı ve gerekli API anahtarlarını ekleyin.
-5. Botu başlatın:
+4. `.env.example` dosyasını `.env` olarak kopyalayın ve Discord bot token'ınızı ekleyin:
+   ```sh
+   cp .env.example .env
+   ```
+   (Windows'ta: `copy .env.example .env`)
+5. Proje ana dizininde boş bir `log.txt` dosyası oluşturun:
+   ```sh
+   touch log.txt
+   ```
+   (Windows'ta: `echo. > log.txt`)
+6. Botu başlatın:
    ```sh
    npm start
    ```
@@ -71,8 +80,17 @@ During the pandemic, I was too sick to use my vocal cords, so I created "Metin A
    ```sh
    npm install
    ```
-4. Add your Discord bot token and required API keys to the `.env` file.
-5. Start the bot:
+4. Copy `.env.example` to `.env` and add your Discord bot token:
+   ```sh
+   cp .env.example .env
+   ```
+   (On Windows: `copy .env.example .env`)
+5. Create an empty `log.txt` file in the project root directory:
+   ```sh
+   touch log.txt
+   ```
+   (On Windows: `echo. > log.txt`)
+6. Start the bot:
    ```sh
    npm start
    ```

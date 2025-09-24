@@ -1,5 +1,13 @@
-const Discord = require("discord.js");
-const client = new Discord.Client();
+require('dotenv').config();
+const { Client, GatewayIntentBits, EmbedBuilder } = require("discord.js");
+const client = new Client({ 
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildVoiceStates
+  ] 
+});
 
 const ttsModule = require("./tts");
 const tts = new ttsModule();
@@ -27,16 +35,16 @@ express()
   .get("/wakeup", (req, res) => res.json({ tag: "holly crab" }))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
-setInterval(() => {
-  axios
-    .get("https://metinabi.herokuapp.com/wakeup")
-    .then((resp) => {
-      console.log("heyyo", resp.data.tag);
-    })
-    .catch((err) => {
-      console.log("noooo", err);
-    });
-}, 15 * 1000 * 60);
+// setInterval(() => {
+//   axios
+//     .get("https://metinabi.herokuapp.com/wakeup")
+//     .then((resp) => {
+//       console.log("heyyo", resp.data.tag);
+//     })
+//     .catch((err) => {
+//       console.log("noooo", err);
+//     });
+// }, 15 * 1000 * 60);
 
 const kufurler = [
   "**************",
@@ -50,16 +58,17 @@ const kufurler = [
   "***************",
 ];
 
-client.once("ready", () => {
+client.once("clientReady", () => {
   console.log("Ready!");
   console.log(client.user.id);
   console.log(client.users.resolve());
 });
 
-client.login("TOKEN_HERE");
+client.login(process.env.DISCORD_TOKEN);
 
 client.on("guildCreate", (guild) => {
-  const embedText = new Discord.MessageEmbed();
+  console.log("selam")
+  const embedText = new EmbedBuilder();
   embedText.setTitle("Metin Abi");
   embedText.setDescription(
     "Komutlarımı görmek için *Metin Abi* yazısına tıklamanız yada +mts help yazmanız yeterlidir."
@@ -75,19 +84,24 @@ client.on("guildCreate", (guild) => {
       inline: true,
     },
   ]);
+
+  console.log(guild.channels);
   let guildChannel = guild.channels.cache.find(
     (t) =>
       t.name.toLowerCase().indexOf("general") > -1 ||
       t.name.toLowerCase().indexOf("chat") > -1 ||
       t.name.toLowerCase().indexOf("genel") > -1 ||
       t.name.toLowerCase().indexOf("sohbet") > -1 ||
-      t.name.toLowerCase().indexOf("çet") > -1
+      t.name.toLowerCase().indexOf("çet") > -1 ||
+      t.name.toLowerCase().indexOf("bot-komut") > -1 
   ).id;
+  console.log(guildChannel);
   let sendedChannel = client.channels.cache.get(guildChannel);
   if (sendedChannel) sendedChannel.send(embedText);
 });
 
-client.on("message", async (message) => {
+client.on("messageCreate", async (message) => {
+  if (message.author.bot) return; // Bot mesajlarını yok say
   if (true) {
     var shortMessage = message.content.trim();
     if (shortMessage.indexOf("+bts") == 0) {
